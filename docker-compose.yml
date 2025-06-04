@@ -41,7 +41,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.back
-    command: celery -A legal_ai worker
+    command: poetry run celery -A legal_ai worker
     env_file:
       - backend/.env
     environment:
