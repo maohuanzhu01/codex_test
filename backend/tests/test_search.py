@@ -1,3 +1,10 @@
+import os
+import sys
+import django
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "legal_ai.settings")
+django.setup()
+
 from django.test import RequestFactory
 from rest_framework import status
 from rest_framework.permissions import AllowAny
