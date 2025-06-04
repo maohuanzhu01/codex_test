@@ -5,3 +5,7 @@ __pycache__/
 .env
 
 frontend/dist/
+backend/**/__pycache__/
+backend/.env
+backend/htmlcov/
+backend/.coverage
