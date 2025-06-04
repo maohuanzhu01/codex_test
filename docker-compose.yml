@@ -37,6 +37,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.back
+    command: celery -A legal_ai worker
+    env_file:
+      - backend/.env
+    environment:
+      - DATABASE_URL=postgresql://legal_ai:legal_ai@db:5432/legal_ai
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   frontend:
     build:
       context: .
