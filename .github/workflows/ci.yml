@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: ankane/pgvector:latest
+        env:
+          POSTGRES_PASSWORD: legal_ai
+          POSTGRES_USER: legal_ai
+          POSTGRES_DB: legal_ai
+        options: >-
+          --health-cmd="pg_isready -U legal_ai" --health-interval=10s --health-timeout=5s --health-retries=5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=5
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd backend && poetry install
+      - run: cd backend && poetry run pytest --cov=accounts --cov=chat --cov=retrieval --cov=legal_ai --cov=legalchat --cov-report=xml --cov-report=html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-html
+          path: backend/htmlcov
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f Dockerfile.back -t legal-ai:${{ github.sha }} .
+      - run: docker build -f Dockerfile.front -t legal-ai-frontend:${{ github.sha }} .
+      - run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      - run: docker push legal-ai:${{ github.sha }}
+      - run: docker push legal-ai-frontend:${{ github.sha }}
+
+  docs:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force
