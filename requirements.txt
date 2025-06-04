@@ -3,3 +3,6 @@ djangorestframework>=3.14
 djangorestframework-simplejwt>=5.3
 channels==4
 channels-redis
+jinja2
+openai
+transformers
