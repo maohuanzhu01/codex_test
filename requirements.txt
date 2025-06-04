@@ -6,3 +6,8 @@ channels-redis
 jinja2
 openai
 transformers
+celery
+pgvector
+pdfminer.six
+python-docx
+sentence-transformers
