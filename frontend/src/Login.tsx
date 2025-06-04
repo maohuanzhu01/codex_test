@@ -22,11 +22,30 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <button type="submit">Login</button>
-    </form>
+    <div className="container mt-5" style={{ maxWidth: '400px' }}>
+      <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+        <h2 className="mb-3 text-center">Login</h2>
+        <div className="mb-3">
+          <input
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary w-100">
+          Login
+        </button>
+      </form>
+    </div>
   )
 }

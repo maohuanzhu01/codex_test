@@ -17,3 +17,12 @@ Install the following tools:
 This will start the backend, frontend, and the Celery worker for background tasks.
 
 The backend OpenAPI schema is available at `/schema/` and Swagger UI at `/docs/`.
+
+### Default admin user
+
+After running the migrations you can create a default superuser named `admin`
+with password `12345678`:
+
+```bash
+docker compose run --rm backend poetry run python manage.py create_default_admin
+```
