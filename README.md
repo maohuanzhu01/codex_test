@@ -13,19 +13,7 @@ Install the following tools:
 
 ## Local setup
 
-1. Copy `backend/.env.example` to `backend/.env` and edit values such as
-   `DJANGO_SECRET_KEY`.
-2. Start PostgreSQL (for example with `docker compose up -d db`) or use your
-   local installation.
-3. Run the bootstrap script to install dependencies and apply migrations:
 
-   ```bash
-   ./bootstrap.sh
-   ```
-4. Finally, launch all services:
-
-   ```bash
-   docker compose up --build
-   ```
+This will start the backend, frontend, and the Celery worker for background tasks.
 
 The backend OpenAPI schema is available at `/schema/` and Swagger UI at `/docs/`.
